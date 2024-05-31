@@ -72,15 +72,12 @@ export const login = async (req, res) => {
       }
     );
 
-    const { password, ...userData } = user.toObject();
+    const { password, ...userData } = user._doc;
 
     res.json({
       ...userData,
       token,
     });
-
-    console.log("Response Data:", responseData);
-    res.json(responseData);
   } catch (err) {
     console.log(err);
 
