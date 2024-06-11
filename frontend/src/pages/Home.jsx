@@ -12,6 +12,7 @@ import { CommentsBlock } from "../components/CommentsBlock";
 
 export const Home = () => {
   const dispatch = useDispatch();
+  const userData = useSelector((state) => state.auth.data);
   const { posts, tags } = useSelector((state) => state.posts);
 
   const isPostsLoading = posts.status === "loading";
@@ -22,6 +23,8 @@ export const Home = () => {
     dispatch(fetchTags());
   }, []);
 
+  console.log(userData);
+
   return (
     <>
       <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
@@ -30,8 +33,9 @@ export const Home = () => {
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>
-          {(isPostsLoading ? [...Array(5)] : posts.items).map((obj, index) =>
-            isPostsLoading ? (
+          {(isPostsLoading ? [...Array(5)] : posts.items).map((obj, index) => {
+            console.log(obj, userData);
+            return isPostsLoading ? (
               <Post isLoading={true} key={index} />
             ) : (
               <Post
@@ -43,10 +47,10 @@ export const Home = () => {
                 viewsCount={obj.viewsCount}
                 commentsCount={3}
                 tags={obj.tags}
-                isEditable
+                isEditable={obj?._id === userData._id}
               />
-            )
-          )}
+            );
+          })}
         </Grid>
         <Grid xs={4} item>
           <TagsBlock items={tags.items} isLoading={isTagsLoading} />
