@@ -23,8 +23,6 @@ export const Home = () => {
     dispatch(fetchTags());
   }, []);
 
-  console.log(userData);
-
   return (
     <>
       <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
@@ -34,7 +32,6 @@ export const Home = () => {
       <Grid container spacing={4}>
         <Grid xs={8} item>
           {(isPostsLoading ? [...Array(5)] : posts.items).map((obj, index) => {
-            console.log(obj, userData);
             return isPostsLoading ? (
               <Post isLoading={true} key={index} />
             ) : (
@@ -47,7 +44,7 @@ export const Home = () => {
                 viewsCount={obj.viewsCount}
                 commentsCount={3}
                 tags={obj.tags}
-                isEditable={obj?._id === userData._id}
+                // isEditable={obj?._id === userData._id}
               />
             );
           })}
