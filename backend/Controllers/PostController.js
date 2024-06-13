@@ -41,7 +41,7 @@ export const getOne = async (req, res) => {
       { _id: postId },
       { $inc: { viewCount: 1 } },
       { returnDocument: "after" }
-    );
+    ).populate("user");
 
     if (!getOnePost) {
       console.error(`Post with ID ${postId} not found`);

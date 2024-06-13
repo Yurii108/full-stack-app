@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIsAuth } from "../../redux/auth";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
@@ -16,9 +16,10 @@ export const AddPost = () => {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
   const inputFileRef = useRef(null);
+  const navigate = useNavigate();
 
   const [isLoading, setLoading] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [text, setText] = React.useState("");
   const [title, setTitle] = React.useState("");
   const [tags, setTags] = React.useState("");
   const [imageUrl, setImageUrl] = React.useState("");
@@ -28,10 +29,11 @@ export const AddPost = () => {
       const formData = new FormData();
       const file = event.target.files[0];
       formData.append("image", file);
+
       const { data } = await axios.post("/upload", formData);
       setImageUrl(data.url);
     } catch (error) {
-      console.warn(err);
+      console.warn(error);
       alert("Ошибка загрузки файлов");
     }
   };
@@ -41,7 +43,7 @@ export const AddPost = () => {
   };
 
   const onChange = React.useCallback((value) => {
-    setValue(value);
+    setText(value);
   }, []);
 
   const options = React.useMemo(
@@ -58,8 +60,27 @@ export const AddPost = () => {
     }),
     []
   );
-  const onSubmit = () => {
-    console.log();
+
+  const onSubmit = async () => {
+    try {
+      setLoading(true);
+
+      const fields = {
+        text,
+        title,
+        tags: tags.split(","),
+        imageUrl,
+      };
+
+      const { data } = await axios.post("/posts", fields);
+
+      const id = data._id;
+
+      navigate(`/posts/${id}`);
+    } catch (error) {
+      console.warn(error);
+      alert("Ошибка при создании стати!");
+    }
   };
 
   if (!window.localStorage.getItem("token") && !isAuth) {
@@ -98,7 +119,7 @@ export const AddPost = () => {
         placeholder="Тэги"
         fullWidth
       />
-      <SimpleMDE className={styles.editor} value={value} onChange={onChange} options={options} />
+      <SimpleMDE className={styles.editor} value={text} onChange={onChange} options={options} />
       <div className={styles.buttons}>
         <Button onClick={onSubmit} size="large" variant="contained">
           Опубликовать
