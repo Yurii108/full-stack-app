@@ -7,7 +7,7 @@ dotenv.config();
 
 import { registerValidation, loginValidation, postCreateValidation } from "./validations.js";
 
-import { PostController, UserController } from "./Controllers/index.js";
+import { PostController, UserController } from "./сontrollers/index.js";
 
 import { checkAuth, handleValidationErrors } from "./utils/index.js";
 
