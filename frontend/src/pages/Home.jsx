@@ -23,10 +23,13 @@ export const Home = () => {
     dispatch(fetchTags());
   }, []);
 
+  console.log(import.meta.env);
+  console.log(import.meta.env.VITE_SOME_KEY);
+
   return (
     <>
       <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
-        <Tab label="Новые" />
+        <Tab label={`Новые`} />
         <Tab label="Популярные" />
       </Tabs>
       <Grid container spacing={4}>
@@ -38,7 +41,7 @@ export const Home = () => {
               <Post
                 id={obj._id}
                 title={obj.title}
-                imageUrl={obj.imageUrl ? `http://localhost:3333${obj.imageUrl}` : ""}
+                imageUrl={obj.imageUrl ? `${import.meta.env.VITE_REACT_APP_API_URL}${obj.imageUrl}` : ""}
                 user={obj.user}
                 createdAt={obj.createdAt}
                 viewsCount={obj.viewCount}
