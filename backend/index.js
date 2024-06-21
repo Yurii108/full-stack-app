@@ -50,7 +50,6 @@ app.post("/upload", checkAuth, upload.single("image"), (req, res) => {
 });
 
 app.get("/tags", PostController.getLastTags);
-
 app.get("/posts", PostController.getAll);
 app.get("/posts/tags", PostController.getLastTags);
 app.get("/posts/:id", PostController.getOne);
@@ -64,7 +63,7 @@ app.patch(
   PostController.update
 );
 
-app.listen(3333, (error) => {
+app.listen(process.env.PORT || 3333, (error) => {
   if (error) {
     console.log(error);
   }

@@ -9,7 +9,7 @@
 
 # production
 /build
-.json.local
+readme.local
 
 # misc
 .DS_Store
