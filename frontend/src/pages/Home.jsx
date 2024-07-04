@@ -23,15 +23,13 @@ export const Home = () => {
     dispatch(fetchTags());
   }, []);
 
-  console.log(import.meta.env);
-  console.log(import.meta.env.VITE_SOME_KEY);
-
   return (
     <>
       <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
         <Tab label={`New`} />
         <Tab label="Popular" />
       </Tabs>
+
       <Grid container spacing={4}>
         <Grid xs={8} item>
           {(isPostsLoading ? [...Array(5)] : posts.items).map((obj, index) => {
@@ -47,11 +45,12 @@ export const Home = () => {
                 viewsCount={obj.viewCount}
                 commentsCount={3}
                 tags={obj.tags}
-                isEditable={userData?._id === obj?.user?._id}
+                isEditable={obj?.user?._id && userData?._id === obj?.user?._id}
               />
             );
           })}
         </Grid>
+
         <Grid xs={4} item>
           <TagsBlock items={tags.items} isLoading={isTagsLoading} />
           <CommentsBlock
