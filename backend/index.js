@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import multer from "multer";
 import cors from "cors";
+import fs from "fs";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -26,6 +27,9 @@ const app = express();
 
 const storage = multer.diskStorage({
   destination: (_, __, callback) => {
+    if (!fs.existsSync("uploads")) {
+      fs.mkdirSync("uploads");
+    }
     callback(null, "uploads");
   },
   filename: (_, file, callback) => {
@@ -68,5 +72,5 @@ app.listen(process.env.PORT || 3333, (error) => {
     console.log(error);
   }
 
-  console.log("Success OK!");
+  console.log("Port:3333 Success OK!");
 });
