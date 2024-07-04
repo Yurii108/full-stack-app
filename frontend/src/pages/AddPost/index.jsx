@@ -26,7 +26,6 @@ export const AddPost = () => {
   const [imageUrl, setImageUrl] = React.useState("");
 
   const isEditing = Boolean(id);
-
   const handleChangeFile = async (event) => {
     try {
       const formData = new FormData();
@@ -37,7 +36,7 @@ export const AddPost = () => {
       setImageUrl(data.url);
     } catch (error) {
       console.warn(error);
-      alert("Ошибка загрузки файлов");
+      alert("File upload error");
     }
   };
 
@@ -54,7 +53,7 @@ export const AddPost = () => {
       spellChecker: false,
       maxHeight: "400px",
       autofocus: true,
-      placeholder: "Введите текст...",
+      placeholder: "Enter text...",
       status: false,
       autosave: {
         enabled: true,
@@ -82,7 +81,7 @@ export const AddPost = () => {
       navigate(`/posts/${_id}`);
     } catch (error) {
       console.warn(error);
-      alert("Ошибка при создании стати!");
+      alert("Error creating post!");
     }
   };
 
@@ -98,7 +97,7 @@ export const AddPost = () => {
         })
         .catch((error) => {
           console.warn(error);
-          alert("Ошибка при получении стати");
+          alert("Error fetching post");
         });
     }
   }, []);
@@ -110,13 +109,13 @@ export const AddPost = () => {
   return (
     <Paper style={{ padding: 30 }}>
       <Button variant="outlined" size="large" onClick={() => inputFileRef.current.click()}>
-        Загрузить превью
+        Upload Preview
       </Button>
       <input type="file" ref={inputFileRef} onChange={handleChangeFile} hidden />
       {imageUrl && (
         <>
           <Button variant="contained" color="error" onClick={onClickRemoveImage}>
-            Удалить
+            Delete
           </Button>
           <img className={styles.image} src={`${import.meta.env.VITE_REACT_APP_API_URL}${imageUrl}`} alt="Uploaded" />
         </>
@@ -128,7 +127,7 @@ export const AddPost = () => {
         onChange={(e) => setTitle(e.target.value)}
         value={title}
         variant="standard"
-        placeholder="Заголовок статьи..."
+        placeholder="Post title..."
         fullWidth
       />
       <TextField
@@ -136,16 +135,16 @@ export const AddPost = () => {
         onChange={(e) => setTags(e.target.value)}
         value={tags}
         variant="standard"
-        placeholder="Тэги"
+        placeholder="Tags"
         fullWidth
       />
       <SimpleMDE className={styles.editor} value={text} onChange={onChange} options={options} />
       <div className={styles.buttons}>
         <Button onClick={onSubmit} size="large" variant="contained">
-          {isEditing ? "Сохранить" : "Опубликовать"}
+          {isEditing ? "Save" : "Publish"}
         </Button>
         <a href="/">
-          <Button size="large">Отмена</Button>
+          <Button size="large">Cancel</Button>
         </a>
       </div>
     </Paper>
